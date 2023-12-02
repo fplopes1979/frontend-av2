@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CRUD de Produtos</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>CRUD de Produtos</h1>
+    <form id="productForm">
+      <input type="number" id="ean" placeholder="Código EAN" required>
+      <input type="text" id="name" placeholder="Nome" required>
+      <input type="number" id="price" step="0.01" placeholder="Preço" required>
+      <input type="text" id="country" placeholder="País" required>
+      <input type="text" id="region" placeholder="Região" required>
+      <input type="text" id="city" placeholder="Cidade" required>
+      <div class="buttons">
+        <button type="submit" onclick="submitProduct(event)">Adicionar/Atualizar</button>
+        <button type="button" id="deleteButton" onclick="deleteProduct()">Excluir</button>
+        <button type="button" onclick="searchProduct()">Buscar</button>
+      </div>
+    </form>
+    <div id="result"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
