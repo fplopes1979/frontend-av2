@@ -1,4 +1,4 @@
-const baseURL = 'http://seuservidor.com/api/produtos'; // Substitua pela sua URL de API
+const baseURL = 'http://127.0.0.1:8080/'; // Substitua pela sua URL de API
 
 function submitProduct(event) {
   event.preventDefault();
