@@ -2,12 +2,13 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = 3010;
 
 app.use(bodyParser.json());
 
 // Mock database (replace this with a real database in a production environment)
-let products = [];
+let { products } = require('./products.js');
+
 
 // GET all products
 app.get('/api/produtos', (req, res) => {
@@ -15,9 +16,9 @@ app.get('/api/produtos', (req, res) => {
 });
 
 // GET product by code
-app.get('/api/produtos/:codigoEAN', (req, res) => {
-  const { codigoEAN } = req.params;
-  const product = products.find(product => product.codigoEAN === Number(codigoEAN));
+app.get('/api/produtos/:ean', (req, res) => {
+  const { ean } = req.params;
+  const product = products.find(product => product.ean === ean);
 
   if (!product) {
     return res.status(404).json({ message: 'Produto não encontrado' });
@@ -29,7 +30,7 @@ app.get('/api/produtos/:codigoEAN', (req, res) => {
 // POST create a product
 app.post('/api/produtos', (req, res) => {
   const newProduct = req.body;
-  const existingProduct = products.find(product => product.codigoEAN === newProduct.codigoEAN);
+  const existingProduct = products.find(product => product.ean === newProduct.ean);
 
   if (existingProduct) {
     return res.status(400).json({ message: 'Produto já existe' });
@@ -40,13 +41,13 @@ app.post('/api/produtos', (req, res) => {
 });
 
 // PUT update a product by code
-app.put('/api/produtos/:codigoEAN', (req, res) => {
-  const { codigoEAN } = req.params;
+app.put('/api/produtos', (req, res) => {
   const updatedProduct = req.body;
+  const ean = updatedProduct.ean;
   let found = false;
 
   products = products.map(product => {
-    if (product.codigoEAN === Number(codigoEAN)) {
+    if (product.ean === ean) {
       found = true;
       return { ...product, ...updatedProduct };
     }
@@ -61,10 +62,10 @@ app.put('/api/produtos/:codigoEAN', (req, res) => {
 });
 
 // DELETE a product by code
-app.delete('/api/produtos/:codigoEAN', (req, res) => {
-  const { codigoEAN } = req.params;
+app.delete('/api/produtos/:ean', (req, res) => {
+  const { ean } = req.params;
   const initialLength = products.length;
-  products = products.filter(product => product.codigoEAN !== Number(codigoEAN));
+  products = products.filter(product => product.ean !== ean);
 
   if (products.length === initialLength) {
     return res.status(404).json({ message: 'Produto não encontrado' });
