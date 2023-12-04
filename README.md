@@ -6,6 +6,7 @@ Server:
   - Running on port 3010
 
 React:
+  - Go to the "react-project" directory
   - Run "npm install" to install node_modules
   - Run "npm start" to start the react application
   - Running on port 3000
