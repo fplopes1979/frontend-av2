@@ -1,4 +1,4 @@
-const baseURL = 'http://127.0.0.1:8080/'; // Substitua pela sua URL de API
+const baseURL = 'http://localhost:3000/api/produtos'; // Replace with your server URL
 
 function submitProduct(event) {
   event.preventDefault();
@@ -21,7 +21,6 @@ function submitProduct(event) {
     }
   };
 
-  // Enviar requisição para o servidor
   fetch(baseURL, {
     method: 'POST',
     headers: {
@@ -31,12 +30,18 @@ function submitProduct(event) {
   })
   .then(response => {
     if (response.ok) {
-      document.getElementById('result').innerText = 'Produto adicionado/atualizado com sucesso!';
-    } else if (response.status === 204) {
-      document.getElementById('result').innerText = 'Produto já existe ou não encontrado!';
+      return response.json();
+    } else if (response.status === 400) {
+      return response.json().then(data => {
+        throw new Error(data.message);
+      });
     } else {
       throw new Error('Erro ao adicionar/atualizar o produto');
     }
+  })
+  .then(data => {
+    console.log('Produto adicionado/atualizado com sucesso:', data);
+    // You can perform any additional actions here upon successful response
   })
   .catch(error => {
     console.error('Erro:', error);
@@ -46,18 +51,23 @@ function submitProduct(event) {
 function deleteProduct() {
   const ean = document.getElementById('ean').value;
 
-  // Enviar requisição para o servidor
   fetch(`${baseURL}/${ean}`, {
     method: 'DELETE'
   })
   .then(response => {
     if (response.ok) {
-      document.getElementById('result').innerText = 'Produto excluído com sucesso!';
-    } else if (response.status === 204) {
-      document.getElementById('result').innerText = 'Produto não encontrado!';
+      return response.json();
+    } else if (response.status === 404) {
+      return response.json().then(data => {
+        throw new Error(data.message);
+      });
     } else {
       throw new Error('Erro ao excluir o produto');
     }
+  })
+  .then(data => {
+    console.log('Produto excluído com sucesso:', data);
+    // You can perform any additional actions here upon successful response
   })
   .catch(error => {
     console.error('Erro:', error);
@@ -67,22 +77,25 @@ function deleteProduct() {
 function searchProduct() {
   const ean = document.getElementById('ean').value;
 
-  // Enviar requisição para o servidor
-  fetch(`${baseURL}?codigo=${ean}`)
+  fetch(`${baseURL}/${ean}`)
   .then(response => {
     if (response.ok) {
       return response.json();
-    } else if (response.status === 204) {
-      document.getElementById('result').innerText = 'Produto não encontrado!';
+    } else if (response.status === 404) {
+      return response.json().then(data => {
+        throw new Error(data.message);
+      });
     } else {
       throw new Error('Erro ao buscar o produto');
     }
   })
   .then(data => {
-    // Manipular os dados do produto encontrado
-    document.getElementById('result').innerText = JSON.stringify(data, null, 2);
+    console.log('Produto encontrado:', data);
+    // You can perform any additional actions here upon successful response
   })
   .catch(error => {
     console.error('Erro:', error);
   });
 }
+
+// Implement other functions similarly for update, read all, etc...
