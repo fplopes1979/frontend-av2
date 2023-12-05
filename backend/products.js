@@ -1,44 +1,54 @@
 products = [
- {
-    "ean": "001",
-    "name": "Item1",
-    "price": "100",
-    "country": "US",
-    "region": "",
-    "city": ""
- }, 
    {
-    "ean": "002",
-    "name": "Item2",
-    "price": "150",
-    "country": "US",
-    "region": "",
-    "city": ""
- },
+      "codigoEAN": 1,
+      "nome": "Item1",
+      "preco": 100.00,
+      "localidadeProducao": {
+        "pais": "US",
+        "regiao": "California",
+        "cidade": "Los Angeles"
+      }
+   }, 
    {
-    "ean": "003",
-    "name": "Item3",
-    "price": "200",
-    "country": "US",
-    "region": "",
-    "city": ""
- },
+      "codigoEAN": 2,
+      "nome": "Item2",
+      "preco": 150.00,
+      "localidadeProducao": {
+        "pais": "US",
+        "regiao": "California",
+        "cidade": "Los Angeles"
+      }
+   },
    {
-    "ean": "004",
-    "name": "Item4",
-    "price": "300",
-    "country": "US",
-    "region": "",
-    "city": ""
- },
- {
-  "ean": "005",
-  "name": "Item5",
-  "price": "320",
-  "country": "US",
-  "region": "",
-  "city": ""
-}
+      "codigoEAN": 3,
+      "nome": "Item3",
+      "preco": 200.00,
+      "localidadeProducao": {
+        "pais": "US",
+        "regiao": "California",
+        "cidade": "Los Angeles"
+      }
+   },
+   {
+      "codigoEAN": 4,
+      "nome": "Item4",
+      "preco": 210.00,
+      "localidadeProducao": {
+        "pais": "US",
+        "regiao": "California",
+        "cidade": "Los Angeles"
+      }
+   },
+   {
+      "codigoEAN": 5,
+      "nome": "Item5",
+      "preco": 300.50,
+      "localidadeProducao": {
+        "pais": "US",
+        "regiao": "California",
+        "cidade": "Los Angeles"
+      }
+   }
 ]
 
 module.exports = { products }
