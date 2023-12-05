@@ -11,12 +11,14 @@ function submitProduct(event) {
   const city = document.getElementById('city').value;
 
   const product =  {
-    "ean": ean,
-    "name": name,
-    "price": price,
-    "country": country,
-    "region": region,
-    "city": city
+    "codigoEAN": ean,
+    "nome": name,
+    "preco": price,
+    "localidadeProducao": {
+      "pais": country,
+      "regiao": region,
+      "cidade": city
+    }
  };
 
   fetch(baseURL, {
