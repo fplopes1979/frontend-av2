@@ -11,6 +11,7 @@ let { products } = require('./products.js');
 
 // GET all products
 app.get('/api/produtos', (req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
   res.json(products);
 });
 
@@ -22,7 +23,8 @@ app.get('/api/produtos/:ean', (req, res) => {
   if (!product) {
     return res.status(404).json({ message: 'Produto não encontrado' });
   }
-
+  
+  res.set('Access-Control-Allow-Origin', '*');
   res.json(product);
 });
 
@@ -36,6 +38,8 @@ app.post('/api/produtos', (req, res) => {
   }
 
   products.push(newProduct);
+
+  res.set('Access-Control-Allow-Origin', '*');
   res.status(201).json(newProduct);
 });
 
@@ -57,6 +61,7 @@ app.put('/api/produtos', (req, res) => {
     return res.status(404).json({ message: 'Produto não encontrado' });
   }
 
+  res.set('Access-Control-Allow-Origin', '*');
   res.json({ message: 'Produto atualizado com sucesso' });
 });
 
@@ -70,6 +75,7 @@ app.delete('/api/produtos/:ean', (req, res) => {
     return res.status(404).json({ message: 'Produto não encontrado' });
   }
 
+  res.set('Access-Control-Allow-Origin', '*');
   res.json({ message: 'Produto excluído com sucesso' });
 });
 
