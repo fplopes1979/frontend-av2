@@ -1,9 +1,11 @@
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 
 const app = express();
 const PORT = 3010;
 
+app.use(cors()); 
 app.use(bodyParser.json());
 
 // Mock database
@@ -11,7 +13,6 @@ let { products } = require('./products.js');
 
 // GET all products
 app.get('/api/produtos', (req, res) => {
-  res.set('Access-Control-Allow-Origin', '*');
   res.json(products);
 });
 
@@ -19,18 +20,24 @@ app.get('/api/produtos', (req, res) => {
 app.get('/api/produtos/:ean', (req, res) => {
   const { ean } = req.params;
   const product = products.find(product => product.codigoEAN === Number(ean));
-
+  
   if (!product) {
     return res.status(404).json({ message: 'Produto não encontrado' });
   }
   
-  res.set('Access-Control-Allow-Origin', '*');
   res.json(product);
 });
 
 // POST 
 app.post('/api/produtos', (req, res) => {
-  const newProduct = req.body;
+  const newProductJSON = req.body;
+  const newProduct =  {
+    "codigoEAN": Number(newProductJSON.codigoEAN),
+    "nome": newProductJSON.nome,
+    "preco": Number(newProductJSON.preco),
+    "localidadeProducao": newProductJSON.localidadeProducao
+  };
+
   const existingProduct = products.find(product => product.codigoEAN === newProduct.codigoEAN);
 
   if (existingProduct) {
@@ -39,7 +46,6 @@ app.post('/api/produtos', (req, res) => {
 
   products.push(newProduct);
 
-  res.set('Access-Control-Allow-Origin', '*');
   res.status(201).json(newProduct);
 });
 
@@ -61,7 +67,6 @@ app.put('/api/produtos', (req, res) => {
     return res.status(404).json({ message: 'Produto não encontrado' });
   }
 
-  res.set('Access-Control-Allow-Origin', '*');
   res.json({ message: 'Produto atualizado com sucesso' });
 });
 
@@ -75,7 +80,6 @@ app.delete('/api/produtos/:ean', (req, res) => {
     return res.status(404).json({ message: 'Produto não encontrado' });
   }
 
-  res.set('Access-Control-Allow-Origin', '*');
   res.json({ message: 'Produto excluído com sucesso' });
 });
 

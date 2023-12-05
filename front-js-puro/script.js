@@ -18,14 +18,16 @@ function submitProduct() {
       "regiao": region,
       "cidade": city
     }
- };
+  };
+
+  const productJSON = JSON.stringify(product);
 
   fetch(baseURL, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(product)
+    body: productJSON
   })
   .then(response => {
     if (response.ok) {
@@ -35,11 +37,60 @@ function submitProduct() {
         throw new Error(data.message);
       });
     } else {
-      throw new Error('Erro ao adicionar/atualizar o produto');
+      throw new Error('Erro ao cadastrar o produto');
     }
   })
   .then(data => {
-    console.log('Produto adicionado/atualizado com sucesso:', data);
+    console.log('Produto cadastrado com sucesso:', data);
+    // You can perform any additional actions here upon successful response
+  })
+  .catch(error => {
+    console.error('Erro:', error);
+  });
+}
+
+function editProduct() {
+
+  const ean = document.getElementById('ean').value;
+  const name = document.getElementById('name').value;
+  const price = document.getElementById('price').value;
+  const country = document.getElementById('country').value;
+  const region = document.getElementById('region').value;
+  const city = document.getElementById('city').value;
+
+  const product =  {
+    "codigoEAN": ean,
+    "nome": name,
+    "preco": price,
+    "localidadeProducao": {
+      "pais": country,
+      "regiao": region,
+      "cidade": city
+    }
+  };
+
+  const productJSON = JSON.stringify(product);
+
+  fetch(baseURL, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: productJSON
+  })
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else if (response.status === 400) {
+      return response.json().then(data => {
+        throw new Error(data.message);
+      });
+    } else {
+      throw new Error('Erro ao cadastrar o produto');
+    }
+  })
+  .then(data => {
+    console.log('Produto cadastrado com sucesso:', data);
     // You can perform any additional actions here upon successful response
   })
   .catch(error => {
@@ -73,8 +124,7 @@ function deleteProduct() {
   });
 }
 
-function searchProduct() {
-  const ean = document.getElementById('ean').value;
+function searchProduct(ean) {
 
   fetch(`${baseURL}/${ean}`)
   .then(response => {
@@ -111,9 +161,22 @@ function getAllProducts() {
       throw new Error('Erro ao buscar os produtos');
     }
   })
-  .then(data => {
-    console.log('Produtos encontrados:', data);
-    // You can perform any additional actions here upon successful response
+  .then(products => {
+    console.log('Produtos encontrados:', products);
+    const tableBody = document.getElementById('productsTable').getElementsByTagName('tbody')[0];
+    products.forEach(product => {
+      console.log('Product:', product);
+      const row = tableBody.insertRow();
+      row.innerHTML = `
+        <td>${product.codigoEAN}</td>
+        <td>${product.nome}</td>
+        <td>${product.preco}</td>
+        <td>${product.localidadeProducao.pais}</td>
+        <td>${product.localidadeProducao.regiao}</td>
+        <td>${product.localidadeProducao.cidade}</td>
+        <td><button onclick="searchProduct(${product.codigoEAN})">Visualizar</button></td>
+      `;
+    });
   })
   .catch(error => {
     console.error('Erro:', error);

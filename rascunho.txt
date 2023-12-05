@@ -1,0 +1,6 @@
+tela de cadastro
+tela para exibir todos os produtos
+tela pra exibir produto especifico:
+    - botao para uma tela de edicao
+    - botao para deletar
+
