@@ -1,7 +1,6 @@
 const baseURL = 'http://localhost:3010/api/produtos'; // Replace with your server URL
 
-function submitProduct(event) {
-  event.preventDefault();
+function submitProduct() {
 
   const ean = document.getElementById('ean').value;
   const name = document.getElementById('name').value;
