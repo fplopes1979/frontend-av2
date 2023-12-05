@@ -1,4 +1,4 @@
-const baseURL = 'http://localhost:3000/api/produtos'; // Replace with your server URL
+const baseURL = 'http://localhost:3010/api/produtos'; // Replace with your server URL
 
 function submitProduct(event) {
   event.preventDefault();
@@ -10,16 +10,14 @@ function submitProduct(event) {
   const region = document.getElementById('region').value;
   const city = document.getElementById('city').value;
 
-  const product = {
-    codigoEAN: parseInt(ean),
-    nome: name,
-    preco: parseFloat(price),
-    localidadeProducao: {
-      pais: country,
-      regiao: region,
-      cidade: city
-    }
-  };
+  const product =  {
+    "ean": ean,
+    "name": name,
+    "price": price,
+    "country": country,
+    "region": region,
+    "city": city
+ };
 
   fetch(baseURL, {
     method: 'POST',
@@ -98,4 +96,26 @@ function searchProduct() {
   });
 }
 
-// Implement other functions similarly for update, read all, etc...
+function getAllProducts() {
+
+  fetch(`${baseURL}`)
+  .then(response => {
+    if (response.ok) {
+      return response.json();
+    } else if (response.status === 404) {
+      return response.json().then(data => {
+        throw new Error(data.message);
+      });
+    } else {
+      throw new Error('Erro ao buscar os produtos');
+    }
+  })
+  .then(data => {
+    console.log('Produtos encontrados:', data);
+    // You can perform any additional actions here upon successful response
+  })
+  .catch(error => {
+    console.error('Erro:', error);
+  });
+}
+
