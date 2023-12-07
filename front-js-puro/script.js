@@ -30,12 +30,10 @@ function submitProduct() {
     body: productJSON
   })
   .then(response => {
-    if (response.ok) {
+    if (response.code) {
       return response.json();
-    } else if (response.status === 400) {
-      return response.json().then(data => {
-        throw new Error(data.message);
-      });
+    } else if (response.status === 204) {
+      window.alert('Produto já cadastrado');
     } else {
       throw new Error('Erro ao cadastrar o produto');
     }
@@ -128,12 +126,11 @@ function searchProduct(ean) {
 
   fetch(`${baseURL}/${ean}`)
   .then(response => {
-    if (response.ok) {
+    if (response.status === 200) {
       return response.json();
-    } else if (response.status === 404) {
-      return response.json().then(data => {
-        throw new Error(data.message);
-      });
+    } else if (response.status === 204) {
+      window.alert('Produto não cadastrado');
+      throw new Error('Erro ao buscar o produto');
     } else {
       throw new Error('Erro ao buscar o produto');
     }

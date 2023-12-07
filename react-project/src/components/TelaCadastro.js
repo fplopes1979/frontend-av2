@@ -45,12 +45,11 @@ function TelaCadastro({ setTelaAtiva }) {
       body: productJSON
     })
     .then(response => {
-      if (response.ok) {
+      if (response.status === 200) {
         return response.json();
-      } else if (response.status === 400) {
-        return response.json().then(data => {
-          throw new Error(data.message);
-        });
+      } else if (response.status === 204) {
+        window.alert('Produto já cadastrado');
+        throw new Error('Erro ao cadastrar o produto');
       } else {
         throw new Error('Erro ao cadastrar o produto');
       }

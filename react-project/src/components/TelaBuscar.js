@@ -13,12 +13,10 @@ function TelaBuscar({ setTelaAtiva, setProdutoAtual, produtoAtual }) {
   
     fetch(`${baseURL}/${ean}`)
     .then(response => {
-      if (response.ok) {
+      if (response.status === 200) {
         return response.json();
-      } else if (response.status === 404) {
-        return response.json().then(data => {
-          throw new Error(data.message);
-        });
+      } else if (response.status === 204) {
+        window.alert('Produto não cadastrado');
       } else {
         throw new Error('Erro ao buscar o produto');
       }
