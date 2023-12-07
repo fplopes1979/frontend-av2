@@ -1,4 +1,4 @@
-const baseURL = 'http://localhost:3010/api/produtos'; // Replace with your server URL
+const baseURL = 'http://localhost:3010/api/produtos';
 
 function submitProduct() {
 
@@ -42,7 +42,7 @@ function submitProduct() {
   })
   .then(data => {
     console.log('Produto cadastrado com sucesso:', data);
-    // You can perform any additional actions here upon successful response
+    mostrarTela('telaListar')
   })
   .catch(error => {
     console.error('Erro:', error);
@@ -79,6 +79,7 @@ function editProduct() {
     body: productJSON
   })
   .then(response => {
+    console.log(response);
     if (response.ok) {
       return response.json();
     } else if (response.status === 400) {
@@ -91,7 +92,7 @@ function editProduct() {
   })
   .then(data => {
     console.log('Produto cadastrado com sucesso:', data);
-    // You can perform any additional actions here upon successful response
+    mostrarTela('telaListar')
   })
   .catch(error => {
     console.error('Erro:', error);
@@ -116,7 +117,7 @@ function deleteProduct(ean) {
   })
   .then(data => {
     console.log('Produto excluído com sucesso:', data);
-    // You can perform any additional actions here upon successful response
+    mostrarTela('telaListar')
   })
   .catch(error => {
     console.error('Erro:', error);
@@ -124,8 +125,6 @@ function deleteProduct(ean) {
 }
 
 function searchProduct(ean) {
-
-  console.log("entrou" + ean)
 
   fetch(`${baseURL}/${ean}`)
   .then(response => {
@@ -192,11 +191,9 @@ function getAllProducts() {
 }
 
 function mostrarTela(telaId) {
-  // Oculta todas as telas
   const telas = document.querySelectorAll('.tela');
   telas.forEach(tela => tela.classList.remove('ativa'));
 
-  // Mostra a tela desejada
   const telaSelecionada = document.getElementById(telaId);
   telaSelecionada.classList.add('ativa');
 

@@ -52,7 +52,7 @@ app.post('/api/produtos', (req, res) => {
 // PUT
 app.put('/api/produtos', (req, res) => {
   const updatedProduct = req.body;
-  const ean = updatedProduct.codigoEAN;
+  const ean = Number(updatedProduct.codigoEAN);
   let found = false;
 
   products = products.map(product => {
