@@ -22,7 +22,7 @@ app.get('/api/produtos/:ean', (req, res) => {
   const product = products.find(product => product.codigoEAN === Number(ean));
   
   if (!product) {
-    return res.status(404).json({ message: 'Produto não encontrado' });
+    return res.status(204).json({ message: 'Produto não encontrado' });
   }
   
   res.json(product);
@@ -41,7 +41,7 @@ app.post('/api/produtos', (req, res) => {
   const existingProduct = products.find(product => product.codigoEAN === newProduct.codigoEAN);
 
   if (existingProduct) {
-    return res.status(400).json({ message: 'Produto já existe' });
+    return res.status(204).json({ message: 'Produto já existe' });
   }
 
   products.push(newProduct);
@@ -64,7 +64,7 @@ app.put('/api/produtos', (req, res) => {
   });
 
   if (!found) {
-    return res.status(404).json({ message: 'Produto não encontrado' });
+    return res.status(204).json({ message: 'Produto não encontrado' });
   }
 
   res.json({ message: 'Produto atualizado com sucesso' });
@@ -77,7 +77,7 @@ app.delete('/api/produtos/:ean', (req, res) => {
   products = products.filter(product => product.codigoEAN !== Number(ean));
 
   if (products.length === initialLength) {
-    return res.status(404).json({ message: 'Produto não encontrado' });
+    return res.status(204).json({ message: 'Produto não encontrado' });
   }
 
   res.json({ message: 'Produto excluído com sucesso' });

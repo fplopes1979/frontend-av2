@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Produtos</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Lista de Produtos</h1>
+    <a href="cadastro/cadastro.html" class="button">Cadastrar Produto</a>
+    <table id="productsTable">
+      <thead>
+        <tr>
+          <th>Código EAN</th>
+          <th>Nome</th>
+          <th>Preço</th>
+          <th>País</th>
+          <th>Região</th>
+          <th>Cidade</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+  <script src="script.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      getAllProducts();
+    });
+  </script>
+</body>
+</html>

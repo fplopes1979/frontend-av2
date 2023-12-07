@@ -2,12 +2,12 @@ const baseURL = 'http://localhost:3010/api/produtos'; // Replace with your serve
 
 function submitProduct() {
 
-  const ean = document.getElementById('ean').value;
-  const name = document.getElementById('name').value;
-  const price = document.getElementById('price').value;
-  const country = document.getElementById('country').value;
-  const region = document.getElementById('region').value;
-  const city = document.getElementById('city').value;
+  const ean = document.getElementById('ean1').value;
+  const name = document.getElementById('name1').value;
+  const price = document.getElementById('price1').value;
+  const country = document.getElementById('country1').value;
+  const region = document.getElementById('region1').value;
+  const city = document.getElementById('city1').value;
 
   const product =  {
     "codigoEAN": ean,
@@ -51,12 +51,12 @@ function submitProduct() {
 
 function editProduct() {
 
-  const ean = document.getElementById('ean').value;
-  const name = document.getElementById('name').value;
-  const price = document.getElementById('price').value;
-  const country = document.getElementById('country').value;
-  const region = document.getElementById('region').value;
-  const city = document.getElementById('city').value;
+  const ean = document.getElementById('ean4').value;
+  const name = document.getElementById('name4').value;
+  const price = document.getElementById('price4').value;
+  const country = document.getElementById('country4').value;
+  const region = document.getElementById('region4').value;
+  const city = document.getElementById('city4').value;
 
   const product =  {
     "codigoEAN": ean,
@@ -98,8 +98,7 @@ function editProduct() {
   });
 }
 
-function deleteProduct() {
-  const ean = document.getElementById('ean').value;
+function deleteProduct(ean) {
 
   fetch(`${baseURL}/${ean}`, {
     method: 'DELETE'
@@ -126,6 +125,8 @@ function deleteProduct() {
 
 function searchProduct(ean) {
 
+  console.log("entrou" + ean)
+
   fetch(`${baseURL}/${ean}`)
   .then(response => {
     if (response.ok) {
@@ -140,7 +141,13 @@ function searchProduct(ean) {
   })
   .then(data => {
     console.log('Produto encontrado:', data);
-    // You can perform any additional actions here upon successful response
+    mostrarTela('telaMostrar');
+    document.getElementById('ean3').value = data.codigoEAN;
+    document.getElementById('name3').value = data.nome;
+    document.getElementById('price3').value = data.preco;
+    document.getElementById('country3').value = data.localidadeProducao.pais;
+    document.getElementById('region3').value = data.localidadeProducao.regiao;
+    document.getElementById('city3').value = data.localidadeProducao.cidade;
   })
   .catch(error => {
     console.error('Erro:', error);
@@ -164,6 +171,7 @@ function getAllProducts() {
   .then(products => {
     console.log('Produtos encontrados:', products);
     const tableBody = document.getElementById('productsTable').getElementsByTagName('tbody')[0];
+    tableBody.innerHTML = "";
     products.forEach(product => {
       console.log('Product:', product);
       const row = tableBody.insertRow();
@@ -181,5 +189,27 @@ function getAllProducts() {
   .catch(error => {
     console.error('Erro:', error);
   });
+}
+
+function mostrarTela(telaId) {
+  // Oculta todas as telas
+  const telas = document.querySelectorAll('.tela');
+  telas.forEach(tela => tela.classList.remove('ativa'));
+
+  // Mostra a tela desejada
+  const telaSelecionada = document.getElementById(telaId);
+  telaSelecionada.classList.add('ativa');
+
+  if (telaId == 'telaListar') {
+    getAllProducts();
+  }
+}
+
+function confirmDelete(id) {
+  const confirmDelete = window.confirm('Deseja realmente excluir este produto?');
+
+  if (confirmDelete) {
+    deleteProduct(id);
+  }
 }
 
